@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>게시글 작성페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+</head>
+<body>
+    <!-- header -->
+    <head th:replace="fragments/header :: header">
+    <!-- enctype: 파일 업로드시 필요함 -->
+    <form action="/board/published" method="post" enctype="multipart/form-data">
+        <div class="container">
+            <input type="text" name="title" class="form-control mt-4 mb-2" placeholder="제목을 입력해주세요." required>
+            <input type="file" name="file">
+            <div class="form-group">
+                <textarea class="form-control" rows="10" name="content" placeholder="내용을 입력해주세요" required></textarea>
+            </div>
+            <div style="padding-top: 30px" class="justify-content-end">
+                <button type="submit" class="btn btn-secondary mb-3">
+                    <span>발행</span>
+                    <i class="icon_wrap__DDjtd">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="13" aria-hidden="true" class="icon__RhZBv">
+                            <g fill="none" fill-rule="evenodd">
+                                <rect width="11" height="13" fill="#FFF" rx="1"></rect>
+                                <path fill="#474747" d="M2 9h4v1H2zm0-2h7v1H2zm0-2h7v1H2zm0-2h7v1H2z"></path>
+                            </g>
+                        </svg>
+                    </i>
+                </button>
+
+            </div>
+        </div>
+    </form>
+    <!-- footer -->
+    <footer th:replace="fragments/footer :: footer">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</body>
+</html>

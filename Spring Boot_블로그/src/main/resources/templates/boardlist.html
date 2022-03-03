@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/board.css">
+    <meta charset="UTF-8">
+    <title>게시글 리스트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+</head>
+<style>
+    .text-style:link {
+        color: blue;
+        text-decoration:none;
+    }
+    .text-style:visited {
+        color: darkmagenta;
+    }
+    .text-style:hover {
+        text-decoration:underline;
+    }
+    .text-style:active {
+        color: orange;
+    }
+</style>
+<body>
+    <!-- header -->
+    <head th:replace="fragments/header :: header">
+
+    <!-- blog list -->
+    <div class = "container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div th:each="board : ${list}" class="col">
+                <div class="card shadow-sm">
+                    <img width="100%" height="225" th:if="${board.filepath!=null}" th:src="@{${board.filepath}}"></img>
+                    <svg th:unless="${board.filepath!=null}" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                    </svg>
+                    <div class="card-body">
+                        <p>
+                            <a class="text-style" th:text="${board.title}" th:href="@{/board/view(id=${board.id})}"></a>
+                        </p>
+                        <p th:text="${board.content}" class="txt_line" style="font-size: 15px"></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'location.href=\''+ @{/board/view(id=${board.id})} + '\''">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'location.href=\''+ @{/board/modify/{id}(id = ${board.id})} + '\''">Edit</button>
+                            </div>
+                            <small th:text="${#temporals.format(board.writeDate, 'yyyy-MM-dd')}"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- pagination -->
+        <div style="margin-top: 25px">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm justify-content-center" th:with="startNumber=${T(Math).floor((nowPage-1)/10)} * 10 + 1,
+                            endNumber=(${totalPage} > ${startNumber} + 9) ?
+                                        ${startNumber} + 9 : ${totalPage}">
+                    <li class="page-item" th:style="${startPage == nowPage} ? 'display:none'">
+                        <a class="page-link" th:href="@{/(page = ${nowPage-2})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="(${page} == ${nowPage}) ? 'disabled'" th:each="page : ${#numbers.sequence(startNumber, endNumber)}">
+                        <a class="page-link" th:href="@{/(page=${page-1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"><span class="sr-only"></span></a>
+                    </li>
+                    <li class="page-item" th:style="${totalPage == nowPage} ? 'display:none'">
+                        <a class="page-link" th:href="@{/(page = ${nowPage})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer th:replace="fragments/footer :: footer">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</body>
+</html>
