@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>회원페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <style>
+        body{
+        margin-top:20px;
+        background-color: #f2f3f8;}
+    </style>
+</head>
+<body>
+    <!-- header -->
+    <head th:replace="fragments/header :: header">
+
+    <h1>회원 페이지</h1>
+    <hr>
+    <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+    <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/user/info}">내정보</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">어드민</a>
+
+    <!-- footer -->
+    <footer th:replace="fragments/footer :: footer">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</body>
+</html>
