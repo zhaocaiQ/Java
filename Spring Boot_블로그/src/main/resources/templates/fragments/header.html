@@ -13,7 +13,7 @@
 
       <div class="text-end">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 align-items-center justify-content-center mb-md-0">
-          <li sec:authorize="isAnonymous()"><a href="/user/login" class="nav-link px-2 link-secondary">Login</a></li>
+          <li sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link px-2 link-secondary">Login</a></li>
           <li sec:authorize="isAnonymous()"><a href="/user/signup" class="nav-link px-2 link-secondary">Sign-Up</a></li>
           <li sec:authorize="isAuthenticated()"><a href="/board/write" class="nav-link px-2 link-secondary">Write</a></li>
           <li sec:authorize="isAuthenticated()"><a href="/user/logout" class="nav-link px-2 link-secondary">Logout</a></li>
