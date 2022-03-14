@@ -1,4 +1,4 @@
-# Spring Boot_블로그
+# Spring Boot_블로그(22.02.28~22.03.14)
 Java와 스프링부트, Bootstrap, thymeleaf를 이용하여 블로그 페이지 구축
 
 ## 게시글 생성, 삭제 및 검색기능
