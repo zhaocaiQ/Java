@@ -12,3 +12,8 @@ Java와 스프링부트, Bootstrap, thymeleaf를 이용하여 블로그 페이�
 
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/89976847/158162837-88e9b96a-1fb6-4082-b8bc-95ae1e594a61.gif)
+
+# Rest API_도서관대출 실습
+작가, 책, 회원의 등록.조회.수정.삭제(CRUD)와 책 대출기능 API 구현 실습
+- Blog: https://blog.naver.com/daylay6/222673658889
+        블로그 제목 - [Spring] Rest API(CRUD)로 되어 있는 게시글들
