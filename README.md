@@ -15,4 +15,4 @@ Java와 스프링부트, Bootstrap, thymeleaf를 이용하여 블로그 페이�
 
 # Rest API_도서관대출 실습
 작가, 책, 회원의 등록.조회.수정.삭제(CRUD)와 책 대출기능 API 구현 실습
-- Blog: 블로그 제목 - [Rest API(CRUD)로 되어 있는 게시글들] (https://blog.naver.com/daylay6/222673658889)
+- Blog: [Rest API(CRUD)로 되어 있는 게시글들](https://blog.naver.com/daylay6/222673658889)
