@@ -3,11 +3,15 @@ package com.example.API.api;
 
 import com.example.API.domain.Member;
 import com.example.API.domain.MemberStatus;
+import com.example.API.domain.dto.MemberRequest;
+import com.example.API.domain.dto.TokenResponse;
 import com.example.API.service.MemberService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,16 +29,31 @@ public class MemberApiController {
 
 
     //DTO로 파라미터를 받아 회원등록 API 생성
+//    @PostMapping("/api/members")
+//    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
+//        Member member = new Member();
+//        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+//        member.setEmail(request.getEmail());
+//        member.setPassword(scpwd.encode(request.getPassword()));
+////        member.setPassword(request.getPassword());
+//        member.setNickname(request.getNickname());
+//        member.setCreated_date(LocalDateTime.now());
+//        member.setStatus(MemberStatus.USER);
+//        Member memberInfo = memberService.join(member);
+//        return new CreateMemberResponse(memberInfo.getId());
+//    }
+
     @PostMapping("/api/members")
-    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
+    public ResponseEntity signUp(@RequestBody CreateMemberRequest request) {
         Member member = new Member();
+        BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
         member.setEmail(request.getEmail());
-        member.setPassword(request.getPassword());
+        member.setPassword(scpwd.encode(request.getPassword()));
         member.setNickname(request.getNickname());
         member.setCreated_date(LocalDateTime.now());
         member.setStatus(MemberStatus.USER);
-        Member memberInfo = memberService.join(member);
-        return new CreateMemberResponse(memberInfo.getId());
+
+        return ResponseEntity.ok(memberService.signUp(member));
     }
 
     @Data
@@ -125,4 +144,15 @@ public class MemberApiController {
         return memberService.deleteById(id);
     }
 
+    //회원로그인
+    @PostMapping("/api/members/signIn")
+    public ResponseEntity<TokenResponse> signIn(@RequestBody MemberRequest memberRequest) throws Exception {
+
+        return ResponseEntity.ok().body(memberService.signIn(memberRequest));
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<List<Member>> findMember() {
+        return ResponseEntity.ok().body(memberService.findMembers());
+    }
 }

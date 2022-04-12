@@ -3,7 +3,6 @@ package com.example.API.repository;
 import com.example.API.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -31,6 +30,10 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
                 .getResultList();
+    }
+
+    public Member findOneEmail(String email) {
+        return em.find(Member.class, email);
     }
 
     public List<Member> findByNickname(String nickname) {

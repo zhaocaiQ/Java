@@ -1,20 +1,21 @@
 package com.example.API.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
+@RequiredArgsConstructor
+@Table(name = "member")
 @Getter @Setter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -27,8 +28,13 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private List<Post> posts = new ArrayList<>();
+    @Builder
+    public Member(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "member")
+//    private List<Post> posts = new ArrayList<>();
 
 }
