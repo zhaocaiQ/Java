@@ -1,16 +1,15 @@
 package com.example.API.service;
 
 import com.example.API.config.TokenUtils;
-import com.example.API.domain.Auth;
+import com.example.API.domain.AuthEntity;
 import com.example.API.domain.Member;
 import com.example.API.domain.dto.MemberRequest;
 import com.example.API.domain.dto.TokenResponse;
 import com.example.API.repository.AuthRepository;
 import com.example.API.repository.MemberRepository;
 
+import com.example.API.repository.MembersRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
     private final MemberRepository memberRepository;
+    private final MembersRepository membersRepository;
     private final TokenUtils tokenUtils;
-    @Autowired
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -96,15 +94,18 @@ public class MemberService {
         String refreshToken = tokenUtils.saveRefreshToken(findMember);
 
         authRepository.save(
-                Auth.builder().member(findMember).refreshToken(refreshToken).build());
+                AuthEntity.builder().member(findMember).refreshToken(refreshToken).build());
 
         return TokenResponse.builder().ACCESS_TOKEN(accessToken).REFRESH_TOKEN(refreshToken).build();
     }
 
-    @javax.transaction.Transactional
+    @Transactional
     public TokenResponse signIn(MemberRequest memberRequest) throws Exception {
-        Member member = memberRepository.findOneEmail(memberRequest.getEmail());
-        Auth auth =
+        Member member =
+                membersRepository
+                        .findByEmail(memberRequest.getEmail())
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        AuthEntity auth =
                 authRepository
                         .findByMemberId(member.getId())
                         .orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));

@@ -35,7 +35,7 @@ public class TokenUtils {
                 .setSubject(member.getEmail())
                 .setHeader(createHeader())
                 .setClaims(createClaims(member))
-                .setExpiration(createExpireDate(1000 * 60 * 10))
+                .setExpiration(createExpireDate(1000 * 60 * 10000))
                 .signWith(SignatureAlgorithm.HS256, createSigningKey(REFRESH_KEY))
                 .compact();
     }
@@ -78,6 +78,17 @@ public class TokenUtils {
         }
     }
 
+    public String findMember(String token) throws Exception {
+        System.out.println("isValidToken is : " + token);
+        if (isValidRefreshToken(token)) {
+            Claims accessClaims = getClaimsToken(token);
+            System.out.println("getTokenEmail : " + accessClaims.get("email"));
+            return accessClaims.get("email").toString();
+        } else {
+            throw new Exception("로그인을 해주세요.");
+        }
+    }
+
 
     private Date createExpireDate(long expireDate) {
         long curTime = System.currentTimeMillis();
@@ -111,10 +122,12 @@ public class TokenUtils {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     private Claims getClaimsToken(String token) {
         return Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 }

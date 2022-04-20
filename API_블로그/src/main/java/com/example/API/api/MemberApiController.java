@@ -145,7 +145,7 @@ public class MemberApiController {
     }
 
     //회원로그인
-    @PostMapping("/api/members/signIn")
+    @PostMapping("/api/members/sign-in")
     public ResponseEntity<TokenResponse> signIn(@RequestBody MemberRequest memberRequest) throws Exception {
 
         return ResponseEntity.ok().body(memberService.signIn(memberRequest));
